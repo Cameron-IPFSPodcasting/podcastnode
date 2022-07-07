@@ -9,9 +9,11 @@ WORKDIR /ipfs-podcasting
 RUN apt-get update; \
     apt-get install -y --no-install-recommends wget \
     && wget -q https://dist.ipfs.io/go-ipfs/${IPFSGO}/go-ipfs_${IPFSGO}_linux-$TARGETARCH.tar.gz \
+    && wget -q https://dist.ipfs.io/go-ipfs/${IPFSGO}/go-ipfs_${IPFSGO}_linux-$TARGETARCH.tar.gz.sha512 \
+    && cat ./go-ipfs_${IPFSGO}_linux-$TARGETARCH.tar.gz.sha512 | sha512sum -c \
     && tar xzf go-ipfs_${IPFSGO}_linux-$TARGETARCH.tar.gz \
     && cp go-ipfs/ipfs /usr/local/bin \
-    && rm -rf go-ipfs_${IPFSGO}_linux-$TARGETARCH.tar.gz go-ipfs \
+    && rm -rf go-ipfs_${IPFSGO}_linux-$TARGETARCH.tar.gz go-ipfs ./go-ipfs_${IPFSGO}_linux-$TARGETARCH.tar.gz.sha512 \
     && rm -rf /var/lib/apt/lists/*
 
 ### Bundle Stage
